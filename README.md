@@ -4,3 +4,4 @@ This repository contains ASP.NET Core 3.1 Web API projects containing example co
 
 1. Current projects
     1. Autofac - project containing example configuration of Autofac DI container
+    2. JWT - project contains example JWT authorization. If users exists, token is generated for him.
