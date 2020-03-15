@@ -1,6 +1,7 @@
 ﻿using Auth0_net_core_3_1.Entities;
 using Auth0_net_core_3_1.Helpers;
 using Auth0_net_core_3_1.Interfaces;
+using JWT_net_core_3_1.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,7 +18,8 @@ namespace Auth0_net_core_3_1.Services
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<User> _users = new List<User>
         {
-            new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" }
+            new User { Id = 1, FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = Role.Admin },
+            new User { Id = 2, FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role = Role.User }
         };
 
         private readonly AppSettings _appSettings;
@@ -42,7 +44,8 @@ namespace Auth0_net_core_3_1.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -56,6 +59,12 @@ namespace Auth0_net_core_3_1.Services
         public IEnumerable<User> GetAll()
         {
             return _users.WithoutPasswords();
+        }
+
+        public User GetById(int id)
+        {
+            var user = _users.FirstOrDefault(x => x.Id == id);
+            return user.WithoutPassword();
         }
     }
 }

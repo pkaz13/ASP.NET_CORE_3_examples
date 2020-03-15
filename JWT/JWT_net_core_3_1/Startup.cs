@@ -48,7 +48,7 @@ namespace Auth0_net_core_3_1
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false, 
                 };
             });
 
