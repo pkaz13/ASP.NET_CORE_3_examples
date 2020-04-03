@@ -37,7 +37,15 @@ namespace DataAccessLib
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                var parameters = new
+                {
+                    Id = id
+                };
+
+                connection.Execute("dbo.People_Delete", parameters, commandType: CommandType.StoredProcedure);
+            }
         }
 
         public List<Person> GetAll()
