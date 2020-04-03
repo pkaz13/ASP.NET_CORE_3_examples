@@ -6,7 +6,7 @@ namespace DataAccessLib
     {
         List<T> GetAll();
         T GetById(int id);
-        bool Add(T item);
+        T Add(T item);
         void Update(int id, T item);
         void Delete(int id);
     }

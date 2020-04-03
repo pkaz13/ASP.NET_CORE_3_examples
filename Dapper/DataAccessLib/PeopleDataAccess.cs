@@ -10,16 +10,29 @@ namespace DataAccessLib
 {
     public class PeopleDataAccess : IPeopleDataAccess
     {
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public PeopleDataAccess(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public bool Add(Person item)
+        public Person Add(Person item)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Id", 0, DbType.Int32, ParameterDirection.Output);
+                parameters.Add("@FirstName", item.FirstName);
+                parameters.Add("@LastName", item.LastName);
+                parameters.Add("@Age", item.Age);
+
+                connection.Execute("dbo.People_Add", parameters, commandType: CommandType.StoredProcedure);
+
+                item.Id = parameters.Get<int>("@Id");
+
+                return item;
+            }
         }
 
         public void Delete(int id)
