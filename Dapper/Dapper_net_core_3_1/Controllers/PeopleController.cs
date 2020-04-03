@@ -34,6 +34,13 @@ namespace Dapper_net_core_3_1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = person.Id }, person);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdatePerson(int id, Person person)
+        {
+            _peopleDataAccess.Update(id, person);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeletePerson(int id)
         {

@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using DataAccessLib.Model;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -71,7 +70,18 @@ namespace DataAccessLib
 
         public void Update(int id, Person item)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                var parameters = new
+                {
+                    Id = id,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    Age = item.Age
+                };
+
+                connection.Execute("dbo.People_Update", parameters, commandType: CommandType.StoredProcedure);
+            }
         }
     }
 }
