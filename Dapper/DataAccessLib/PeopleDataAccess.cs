@@ -65,6 +65,7 @@ namespace DataAccessLib
                 };
 
                 return connection.QueryFirst<Person>("select Id, FirstName, LastName, Age from People where Id = @Id", parameter);
+                //var people = connection.Query<FullPerson, EmailAddress, FullPerson>("select p.Id as Id, p.FirstName, p.LastName, p.Age, e.Id as Id, e.EmailAddress as Email from People p join EmailAddresses e on e.PersonId = p.Id where p.Id = @Id", (person, email) => { person.EmailAddress = email; return person; }, parameter, splitOn: "Id,Id");
             }
         }
 
