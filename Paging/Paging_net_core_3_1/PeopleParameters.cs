@@ -1,4 +1,4 @@
-﻿namespace Paging_net_core_3_1.Controllers
+﻿namespace Paging_net_core_3_1
 {
     public class PeopleParameters
     {
