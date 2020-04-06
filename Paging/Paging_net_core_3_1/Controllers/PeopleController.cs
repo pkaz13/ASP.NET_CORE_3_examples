@@ -1,5 +1,6 @@
 ﻿using DataAccessLib;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Paging_net_core_3_1.Controllers
 {
@@ -17,6 +18,10 @@ namespace Paging_net_core_3_1.Controllers
         [HttpGet]
         public IActionResult GetPeople([FromQuery] PeopleParameters peopleParameters)
         {
+            IPaginationMetadata metadata = new PaginationMetadata(peopleParameters.MaxPageSize, peopleParameters.PageNumber, peopleParameters.PageSize);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
             return Ok(_peopleDataAccess.GetByPaginationParameters(peopleParameters.PageNumber, peopleParameters.PageSize));
         }
     }

@@ -2,7 +2,7 @@
 {
     public abstract class QueryStringParameters : IQueryStringParameters
     {
-        private const int maxPageSize = 50;
+        public int MaxPageSize { get; } = 50;
         public int PageNumber { get; set; } = 1;
 
         private int _pageSize = 10;
@@ -14,7 +14,7 @@
             }
             set
             {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
+                _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
             }
         }
     }
