@@ -1,6 +1,6 @@
 ﻿namespace Paging_net_core_3_1
 {
-    public abstract class QueryStringParameters
+    public abstract class QueryStringParameters : IQueryStringParameters
     {
         private const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;
