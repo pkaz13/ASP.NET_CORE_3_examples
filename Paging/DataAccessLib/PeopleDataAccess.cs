@@ -55,6 +55,20 @@ namespace DataAccessLib
             }
         }
 
+        public List<Person> GetByPaginationParameters(int pageNumber, int pageSize)
+        {
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                var parameters = new
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                return connection.Query<Person>("dbo.People_Pagination", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public Person GetById(int id)
         {
             using (IDbConnection connection = new SqlConnection(_connectionString))
